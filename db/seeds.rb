@@ -6,7 +6,16 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+owners = []
+2.times do
+  owners << User.create!(username: Faker::Name.name)
+end
 
-7.times do
-  User.create!(name: Faker::Name.name, email: Faker::Internet.email)
+contacts = []
+2.times do |t|
+  contacts << Contact.create!(name: Faker::Name.name, email: Faker::Internet.email,owner:  owners[t])
+end
+
+owners.each do |owner|
+  ContactShare.create!(user: owner, contact: owner.contacts.first)
 end
