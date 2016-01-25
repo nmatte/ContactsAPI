@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  resources :users, only: [:show,:update,:index,:destroy,:create]
-  resources :contacts, only: [:show,:update,:index,:destroy,:create]
+  resources :users, only: [:show,:update,:index,:destroy,:create] do
+    resources :contacts, only: [:show,:update,:index,:destroy,:create]
+  end
+  resources :contact_shares, only: [:create,:destroy]
 end

@@ -9,7 +9,8 @@ class UsersController < ApplicationController
       render json: @user
     else
       render(
-        json: @user.errors.full_messages, status: :unprocessable_entity
+        json: @user.errors.full_messages,
+        status: :unprocessable_entity
       )
     end
   end
@@ -36,7 +37,9 @@ class UsersController < ApplicationController
   end
 
   private
+
   def user_params
+    # { user: {name: "Jeff", age: 29}}
     params.require(:user).permit(:username)
   end
 end

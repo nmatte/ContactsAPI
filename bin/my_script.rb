@@ -9,7 +9,7 @@ url = Addressable::URI.new(
   path: '/users/'
 ).to_s
 
-puts RestClient.post(
+puts RestClient.get(
   url,
-  {user: {username: 'Michaelangoiej'}}
+  {user: {id: 1}}
 )

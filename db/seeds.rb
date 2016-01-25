@@ -7,15 +7,21 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 owners = []
-2.times do
+5.times do
   owners << User.create!(username: Faker::Name.name)
 end
 
 contacts = []
-2.times do |t|
-  contacts << Contact.create!(name: Faker::Name.name, email: Faker::Internet.email,owner:  owners[t])
+5.times do |t|
+  contacts << Contact.create!(
+    name: Faker::Name.name,
+    email: Faker::Internet.email,
+    owner:  owners[rand(2)]
+  )
 end
 
 owners.each do |owner|
-  ContactShare.create!(user: owner, contact: owner.contacts.first)
+  3.times do
+    ContactShare.create(user: owner, contact: owner.contacts.sample)
+  end
 end
