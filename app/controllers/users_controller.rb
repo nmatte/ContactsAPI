@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :integer          not null, primary key
+#  username   :string           not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class UsersController < ApplicationController
   def index
     render json: User.all
@@ -17,6 +27,10 @@ class UsersController < ApplicationController
 
   def show
     render json: User.find(params[:id])
+  end
+
+  def favorites
+    render json: User.find(params[:id]).get_favorites
   end
 
   def update

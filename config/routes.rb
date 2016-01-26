@@ -54,8 +54,27 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  resources :users, only: [:show,:update,:index,:destroy,:create] do
-    resources :contacts, only: [:show,:update,:index,:destroy,:create]
+  resources :users, only: [:show, :update, :index, :destroy, :create] do
+    resources :comments, only: [:show, :update, :index, :destroy]
+
+    resources :groups, only: [:show, :update, :index, :destroy] do
+      member do
+        get 'contacts'
+      end
+    end
+
+    end
+
+    member do
+      get 'favorites'
+    end
+
+    resources :contacts, only: [:create, :show, :update, :index, :destroy] do
+      resources :comments, only: [:show, :update, :index, :destroy]
+    end
   end
-  resources :contact_shares, only: [:create,:destroy]
+  resources :groups, only: [:create]
+  resources :comments, only: [:create]
+  resources :contact_shares, only: [:create, :destroy]
+
 end

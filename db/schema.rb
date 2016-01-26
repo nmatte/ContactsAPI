@@ -11,27 +11,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125221645) do
+ActiveRecord::Schema.define(version: 20160126014433) do
 
-  create_table "contact_shares", force: :cascade do |t|
-    t.integer  "contact_id", null: false
-    t.integer  "user_id",    null: false
+  create_table "comments", force: :cascade do |t|
+    t.text     "comment_body"
+    t.integer  "voiceable_id"
+    t.string   "voiceable_type"
+    t.integer  "author_id",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  add_index "comments", ["author_id"], name: "index_comments_on_author_id"
+  add_index "comments", ["voiceable_type", "voiceable_id"], name: "index_comments_on_voiceable_type_and_voiceable_id"
+
+  create_table "contact_shares", force: :cascade do |t|
+    t.integer  "contact_id",                  null: false
+    t.integer  "user_id",                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_favorite", default: false
   end
 
   add_index "contact_shares", ["contact_id"], name: "index_contact_shares_on_contact_id"
   add_index "contact_shares", ["user_id"], name: "index_contact_shares_on_user_id"
 
   create_table "contacts", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "email",      null: false
+    t.string   "name",                        null: false
+    t.string   "email",                       null: false
+    t.integer  "user_id",                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_favorite", default: false
+  end
+
+  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id"
+
+  create_table "groupings", force: :cascade do |t|
+    t.integer  "group_id",   null: false
+    t.integer  "contact_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groupings", ["contact_id"], name: "index_groupings_on_contact_id"
+  add_index "groupings", ["group_id"], name: "index_groupings_on_group_id"
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
     t.integer  "user_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id"
+  add_index "groups", ["user_id"], name: "index_groups_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username",   null: false

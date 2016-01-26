@@ -11,17 +11,30 @@ owners = []
   owners << User.create!(username: Faker::Name.name)
 end
 
+true_false = [true,false]
 contacts = []
 5.times do |t|
   contacts << Contact.create!(
     name: Faker::Name.name,
     email: Faker::Internet.email,
-    owner:  owners[rand(2)]
+    owner:  owners[rand(2)],
+    is_favorite: true_false.sample
   )
 end
 
 owners.each do |owner|
   3.times do
-    ContactShare.create(user: owner, contact: owner.contacts.sample)
+    ContactShare.create(
+    user: owner,
+    contact: owner.contacts.sample,
+    is_favorite: true_false.sample)
   end
+end
+
+7.times do
+  Comment.create(
+    author: owners.sample,
+    comment_body: Faker::Hipster.paragraph,
+    voiceable: (Contact.all + User.all).sample
+    )
 end
